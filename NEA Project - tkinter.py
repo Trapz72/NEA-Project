@@ -46,30 +46,32 @@ def diceroll():
   root=Tk()
   frm = ttk.Frame(root, padding=10)
   frm.grid()
-  l1=Label(frm, font= ("Arial",260))
   b1=Button(frm, text="Next turn", command=root.destroy)
   b1.place(x=300,y=0)
   b1.pack()
-  dice=['\u2680','\u2681','\u2682','\u2683','\u2684','\u2685']
+  dice=["\u2680","\u2681","\u2682","\u2683","\u2684","\u2685"]
   roll1=random.randint(1,6)
   roll2=random.randint(1,6)
-  l1.config(text=f'{dice[roll1-1]}{dice[roll2-1]}')
-  l1.pack()
-  root.mainloop()
   total=roll1+roll2
+  l1=Label(frm, text=f"{dice[roll1-1]}{dice[roll2-1]}", font=("Helvetica",260))
+  l1.pack() 
 
   if total % 2 == 0:
-    print("Total is even. Adding 10...")
+    l2=Label(frm,text="Total is even. Adding 10...")
+    l2.pack()
     total += 10
   else:
-    print("Total is odd . Subtracting 5...")
+    l2=Label(frm,text="Total is odd. Subtracting 5...")
+    l2.pack()
     total -= 5
 
   if roll1==roll2:
-    print("Double!")
     roll3=random.randint(1,6)
-    print("Extra roll:",roll3)
+    l3=Label(frm,text=f"Double! Extra roll: {roll3}")
+    l3.pack()
     total += roll3
+
+  root.mainloop()
 
   return total
 
@@ -81,16 +83,16 @@ if userauth==True:
     print("User 1's turn")
     roll=diceroll()
     user1_total += roll
-    if user1_total < 1:
+    if user1_total < 0:
       user1_total=0
-    print("User 1 rolled",roll,". Their total score is",user1_total)
+    print("User 1 scored",roll,". Their total score is",user1_total)
 
     print("User 2's turn")
     roll=diceroll()
     user2_total += roll
-    if user2_total < 1:
+    if user2_total < 0:
       user2_total=0
-    print("User 2 rolled",roll,". Their total score is",user2_total)
+    print("User 2 scored",roll,". Their total score is",user2_total)
 
   if user1_total > user2_total:
     print("User 1 wins!")
@@ -116,3 +118,5 @@ if userauth==True:
         win=True
       else:
         print("The tiebreaker was a tie!")
+
+  f.close()
